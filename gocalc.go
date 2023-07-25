@@ -73,7 +73,7 @@ func calculate(expr string) string {
 	switch sign {
 	case "+":
 		if checkRome {
-			res = romeTr(val1 + val2)
+			return romeTr(val1 + val2)
 		}
 		res = fmt.Sprint(val1 + val2)
 	case "-":
@@ -81,7 +81,7 @@ func calculate(expr string) string {
 			res = RomeMoreOne
 		}
 		if checkRome {
-			res = romeTr(val1 - val2)
+			return romeTr(val1 - val2)
 		}
 		res = fmt.Sprint(val1 - val2)
 	case "/":
@@ -89,12 +89,12 @@ func calculate(expr string) string {
 			res = RomeMoreOne
 		}
 		if checkRome {
-			res = romeTr(val1 / val2)
+			return romeTr(val1 / val2)
 		}
 		res = fmt.Sprint(val1 / val2)
 	case "*":
 		if checkRome {
-			res = romeTr(val1 * val2)
+			return romeTr(val1 * val2)
 		}
 		res = fmt.Sprint(val1 * val2)
 	default:
@@ -105,22 +105,19 @@ func calculate(expr string) string {
 }
 
 func romeTr(val int) string {
-	valDict := map[int]string{1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X"}
+	arrS := [9]string{"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C"}
+	arrI := [9]int{1, 4, 5, 9, 10, 40, 50, 90, 100}
 	res := ""
+	n := val
+	i := 8
 
-	tmp := val / 100
-	res += strings.Repeat("C", tmp)
-	tmp = val % 100
-
-	tmp1 := tmp / 50
-	res += strings.Repeat("L", tmp1)
-	tmp1 = tmp % 50
-
-	tmp = tmp1 / 10
-	res += strings.Repeat("X", tmp)
-
-	tmp = tmp1 % 10
-	res += valDict[tmp]
+	for n > 0 {
+		for arrI[i] > n {
+			i--
+		}
+		res += arrS[i]
+		n -= arrI[i]
+	}
 
 	return res
 }
